@@ -1,7 +1,11 @@
 #pragma once
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <stack>
+#include <iostream>
+#include <string>
 #include "Move.h"
-
+// maybe replace arrays with vectors? cuz did that in gtp ... convention ya know? .. ehh ...
 class Board {
 private:
 	Value * board;

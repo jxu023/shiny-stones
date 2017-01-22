@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stack>
 #include "Board.h"
 
 using namespace std;
@@ -87,8 +84,10 @@ inline void Board::set_komi(double k) {
 
 inline Move Board::genmove(Value v) {
 	int row, col;
-	row = rand() % (Rows - 2) + 1;
-	col = rand() % (Cols - 2) + 1;
+	do {
+		row = rand() % (Rows - 2) + 1;
+		col = rand() % (Cols - 2) + 1;
+	} while (!move(v, row, col));
 	return Move(v, row, col);
 }
 
@@ -170,8 +169,7 @@ inline bool Board::player(Value v) {
 // make return bool to express success
 
 inline bool Board::move(Move m) {
-	move(m.v, m.row, m.col);
-	return true;
+	return move(m.v, m.row, m.col);
 }
 inline bool Board::move(Value v, int r, int c) {
 	int rc_ind = r*Cols + c;

@@ -1,15 +1,15 @@
 #pragma once
-#include <vector>
-#include <string>
-#include <iostream>
 #include "Board.h"
+#include <vector>
 
 using namespace std;
+
 struct gtp_command {
 	string cmd;
 	bool(*fn)(vector<string> args);
 };
 bool success(string s);
+bool failure(string s);
 bool gtp_name(vector<string> args);
 bool gtp_version(vector<string> args);
 bool gtp_protocol_version(vector<string> args);
@@ -31,5 +31,4 @@ static struct gtp_command commands[] = {
 	{"genmove", gtp_genmove},
 	{"list_commands", gtp_list_commands},
 	{"boardsize", gtp_boardsize},
-	{"NULL", NULL}
 };

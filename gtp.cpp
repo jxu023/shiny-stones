@@ -1,18 +1,17 @@
-#include <vector>
-#include <string>
-#include <iostream>
 #include "gtp.h"
-#include "Board.cpp" // FIX THIS PLEASE, WHY DOESNT VISUAL STUDIO LET ME NOT HAVE THIS
+#include "Board.cpp" //  =/, why doesn't it work without this?
 
 using namespace std;
-
-Board b;
+Board * myboard = new Board(); // pointer was needed b/c compiler thinks i'm declaring Board again ...
 
 bool success(string s) {
 	cout << "= " << s << "\n\n";
 	return true;
 }
-
+bool failure(string s) {
+	cout << "? " << s << "\n\n";
+	return false;
+}
 bool gtp_name(vector<string> args) {
 	return success("o_o go");
 }
@@ -24,17 +23,17 @@ bool gtp_protocol_version(vector<string> args) {
 }
 bool gtp_list_commands(vector<string> args);
 bool gtp_clear_board(vector<string> args) {
-	b.init();
+	myboard->init();
 	return success("");
 }
 bool gtp_boardsize(vector<string> args) {
 	int n = stoi(args.at(1));
-	b.boardsize(n);
+	myboard->boardsize(n);
 	return success("");
 }
 bool gtp_komi(vector<string> args) {
 	double n = stod(args.at(1));
-	b.set_komi(n);
+	myboard->set_komi(n);
 	return success("");
 }
 // this might return false =_=
@@ -49,16 +48,16 @@ bool gtp_play(vector<string> args) {
 		col = col - 1;
 	}
 	int row = stoi(args[2].substr(1, 2));
-	b.move(v, row, col);
-	return success("");
+	if (myboard->move(v, row, col))
+		return success("");
+	return failure("move invalid");
 }
 bool gtp_genmove(vector<string> args) {
 	Value v = Black;
 	if (args[1] != "B") {
 		v = White;
 	}
-	Move m = b.genmove(v);
-	b.move(m.v,m.row,m.col);
+	Move m = myboard->genmove(v);
 	return success(m.gtp_vertex());
 }
 bool gtp_list_commands(vector<string> args) {

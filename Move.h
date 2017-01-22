@@ -1,10 +1,11 @@
 #pragma once
-
 #include <string>
 enum Value {
 	Wall, Empty, Black, White
 };
 
+// need to add the ability to pass, and request counting
+// do that by having negative coords perhaps, row -1 pass, row -2 count, row -3 resign
 struct Move {
 	Value v;
 	int row;
